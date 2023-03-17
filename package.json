@@ -9,6 +9,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
+    "@react-native-community/datetimepicker": "6.7.3",
+    "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/material-bottom-tabs": "^6.2.15",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -16,10 +19,16 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.3",
+    "react-native-androw": "^0.0.34",
+    "react-native-date-picker": "^4.2.9",
+    "react-native-imaged-card-view": "^0.0.11",
+    "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-paper": "^5.2.0",
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-star-review": "^0.0.3",
+    "react-native-vector-icons": "^9.2.0",
+    "react-number-format": "^5.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

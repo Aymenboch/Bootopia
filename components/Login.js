@@ -83,7 +83,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#f5f8ff',
     marginBottom: 10,
-    padding: 10
+    padding: 10,
+    borderWidth : 1,
+    borderColor: '#8e8e8e',
   },
   forgetpass: {
     color : '#8e8e8e',

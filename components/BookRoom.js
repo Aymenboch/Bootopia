@@ -1,36 +1,35 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
+import React, {useState} from 'react';
+import DatePicker from './DatePicker';
+import TimePicker from './TimePicker';
 
-export default function Register({ navigation }) {
+
+export default function BookRoom({ navigation }) {
+
   return (
     <ScrollView style={styles.container}>
-        <Image style={styles.backimg} source={require('../assets/images/Register-img.jpg')}/>
+        <Image style={styles.backimg} source={require('../assets/images/bookroom.jpg')}/>
         <View style={styles.secondcontainer}>
-          <Text style={styles.title} >Welcome, {'\n'}Register To Access</Text>
+          <Text style={styles.title} >Book Room</Text>
 
-          <Text style={styles.text} >Your Name</Text>
-          <TextInput style={styles.inputbox} placeholder="Name"/>
-          <Text style={styles.text} >Email</Text>
-          <TextInput style={styles.inputbox} placeholder="Email"/>
-          <Text style={styles.text} >Password</Text>
-          <TextInput secureTextEntry={true} style={styles.inputbox} placeholder="password"/>
-          <Text style={styles.text} >Password Confirm</Text>
-          <TextInput secureTextEntry={true} style={styles.inputbox} placeholder="confirm password"/>
-
-          <View style={styles.logocontainer}>
-                  <Image style={styles.logo} source={require('../assets/images/Gmail-logo.png')}/>
-                  <Image style={styles.logo} source={require('../assets/images/Facebook-logo.png')}/>
-                  <Image style={styles.logo} source={require('../assets/images/Twitter-logo.png')}/>
-          </View>
+          <Text style={styles.text} >Choose Room</Text>
+          <TextInput style={styles.inputbox} placeholder="enter room name"/>
+          <Text style={styles.text} >Date</Text>
+          <DatePicker/>
+          <Text style={styles.text} >Time Range</Text>
+          <TimePicker/>
+          <Text style={styles.text} >Number of person</Text>
+          <TextInput style={styles.inputbox} placeholder="enter number of person" inputMode='numeric'/>
+          <Text style={styles.text} >Note</Text>
+          <TextInput style={styles.inputbox} placeholder="write your note" inputMode='text'/>
 
           <View style={styles.btncontainer}>
             <TouchableHighlight style={styles.btn} underlayColor = {'#7502bf'} activeOpacity={0.95} onPress={() => alert('Pressed!')}> 
               <View >
-                <Text style={styles.btntext} title="Login"> Register </Text> 
+                <Text style={styles.btntext} title="Booking room" onPress={() => navigation.navigate('Booking room')}> Booking room </Text> 
               </View>
             </TouchableHighlight>
             <View style={styles.question}>
-              <Text style={styles.textquestion}>Already have an account ?</Text>
-              <Pressable><Text style={styles.regitertext} onPress={() => navigation.navigate('Login')}> Sign in </Text></Pressable>
             </View>
           </View>       
         </View>
@@ -112,5 +111,8 @@ const styles = StyleSheet.create({
   regitertext: {
     color : '#181394',
     fontWeight: 'bold'
+  },
+  datePickerStyle: {
+    width: 230,
   },
 });
