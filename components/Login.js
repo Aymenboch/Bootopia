@@ -1,16 +1,46 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
+import axios from "axios";
+import { useEffect, useState, useContext} from 'react';
+
 
 export default function Login({ navigation }) {
+
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(null);
+
+  const login = async (username, password) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', {
+        username,
+        password,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const response = await login(username, password);
+    if (response && response.token) {
+      console.log('sucess')
+      navigation.navigate('Home')
+    } else {
+      console.log('fail')
+      // display an error message
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
         <Image style={styles.backimg} source={require('../assets/images/Login-img.jpg')}/>
         <View style={styles.secondcontainer}>
           <Text style={styles.title} >Welcome, {'\n'}Please Login First</Text>
 
-          <Text style={styles.text} >Email</Text>
-          <TextInput style={styles.inputbox} placeholder="mail@gmail.com"/>
+          <Text style={styles.text} >Username</Text>
+          <TextInput style={styles.inputbox} placeholder="mail@gmail.com" onChangeText={text => setUsername(text)}/>
           <Text style={styles.text} >Password</Text>
-          <TextInput secureTextEntry={true} style={styles.inputbox} placeholder="password"/>
+          <TextInput secureTextEntry={true} style={styles.inputbox} placeholder="password" onChangeText={text => setPassword(text)}/>
 
           <View style={styles.logocontainer}>
               <View style={styles.logocontainer2}>
@@ -24,7 +54,7 @@ export default function Login({ navigation }) {
           </View>
 
           <View style={styles.btncontainer}>
-            <TouchableHighlight style={styles.btn} underlayColor = {'#7502bf'} activeOpacity={0.95} onPress={() => navigation.navigate('TabNavi')}> 
+            <TouchableHighlight style={styles.btn} underlayColor = {'#7502bf'} activeOpacity={0.95} onPress={handleSubmit}> 
               <View >
                 <Text style={styles.btntext} title="Login" > Login </Text> 
               </View>
@@ -60,6 +90,10 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginHorizontal : 5,
+  },
+  message: {
+    fontSize: 16,
+    marginVertical: '5%',
   },
   backimg: {
     width: 360,

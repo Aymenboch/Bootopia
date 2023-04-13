@@ -1,80 +1,113 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {StyleSheet,View,Text,TextInput,TouchableOpacity,} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
+const Profile = () => {
+  const navigation = useNavigation();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
 
-const Profile = ({ navigation }) => {
-    const myIcon = <Icon name="chevron-right" size={20} color="#181394" />;
+  const handleSaveProfile = () => {
+    // Implement save profile logic here
+    // For example, send a PUT request to update the user's profile
+    // using an API
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title} >Account Setting</Text>
-      <View style={styles.flex}>
-        <Text style={styles.text}>Profile</Text>
-        <View>{myIcon}</View>
+      <View style={styles.formContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Phone</Text>
+          <TextInput
+            style={styles.input}
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
       </View>
-      <View style={styles.flex}>
-        <Text style={styles.text}>Help Center</Text>
-        <View>{myIcon}</View>
-      </View>
-      <View style={styles.flex}>
-      <Text style={styles.text}>Feedback</Text>
-      <View>{myIcon}</View>
-      </View>
-      <View style={styles.flex}>
-      <Text style={styles.text}>Application Setting</Text>
-      <View>{myIcon}</View>
-      </View>
-      <View style={styles.flex}>
-      <Text style={styles.text}>Terms and Conditions</Text>
-      <View>{myIcon}</View>
-      </View>
-      <TouchableHighlight style={styles.btn} underlayColor = {'#7502bf'} activeOpacity={0.95} onPress={() => navigation.push('Login')}> 
-            <View >
-                <Text style={styles.btntext}> Disconnect </Text> 
-            </View>
-      </TouchableHighlight>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSaveProfile}
+      >
+        <Text style={styles.buttonText}>Save Profile</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default Profile;
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginLeft: 20,
-        marginRight: 15,
-    },
-    title: {
-        marginTop: 15,
-        fontFamily: 'sans-serif',
-        color: '#181394',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20,
-      },
-    text: {
-        marginVertical: 15,
-        fontSize: 15,
-        fontFamily: 'sans-serif',
-        color: 'gray',
-        fontWeight: 'bold',
-      },
-    btn: {
-        marginTop: 20,
-        alignItems: 'center',
-        backgroundColor: '#C264FF',
-        borderRadius: 10,
-        padding: 14,
-      },
-    btntext:{
-        color: 'white',
-        fontWeight: 'bold'
-      },
-    flex:{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    padding: 20,
+  },
+  formContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  label: {
+    fontFamily: 'sans-serif',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#181394',
+  },
+  input: {
+    fontFamily: 'sans-serif',
+    fontSize: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#8e8e8e',
+  },
+  button: {
+    marginTop: 20,
+    alignItems: 'center',
+    backgroundColor: '#C264FF',
+    borderRadius: 10,
+    padding: 14,
+  },
+  buttonText:{
+    color: 'white',
+    fontWeight: 'bold',
+    fontFamily: 'sans-serif',
+  },
+});
+
+
+export default Profile;

@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, Image, TouchableHighlight, ScrollView, Pressable, SafeAreaView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Card from './Card';
+import { TouchableOpacity } from 'react-native';
 
 const coworkingSpaces = [
-  { id: '1', name: 'Space Invision', review: '4.5 stars', imageUrl : require('../assets/images/Twitter-logo.png') },
-  { id: '2', name: 'Rihanna', review: '4 stars' ,imageUrl : require('../assets/images/workspace1.jpg')},
-  { id: '3', name: 'Riftless', review: '3.5 stars' ,imageUrl : require('../assets/images/workspace1.jpg')},
-  { id: '4', name: 'Ceefu', review: '5 stars' ,imageUrl : require('../assets/images/workspace1.jpg')},
-  { id: '5', name: 'Bosseless', review: '4 stars',imageUrl : require('../assets/images/workspace1.jpg') },
+  { id: '1', name: 'Space Invision', rating: '4.5 stars', imageUrl : require('../assets/images/ws.jpg') },
+  { id: '2', name: 'Rihanna', rating: '4 stars' ,imageUrl : require('../assets/images/workspace1.jpg')},
+  { id: '3', name: 'Riftless', rating: '3.5 stars' ,imageUrl : require('../assets/images/workspace1.jpg')},
+  { id: '4', name: 'Ceefu', rating: '5 stars' ,imageUrl : require('../assets/images/workspace1.jpg')},
+  { id: '5', name: 'Bosseless', rating: '4 stars',imageUrl : require('../assets/images/workspace1.jpg') },
+];
+const coworkingSpacestype = [
+  { id: '1', name: 'Desk', image : require('../assets/images/desk.png') },
+  { id: '2', name: 'Meeting-Room', image : require('../assets/images/meeting-room.png')},
+  { id: '3', name: 'Private-Office', image : require('../assets/images/private-office.png')},
 ];
 
 const HomePage = () => {
@@ -17,60 +24,58 @@ const HomePage = () => {
     // handle search functionality here 
   };
 
-  const renderSpaceItem = ({ item }) => {
-    const rating = parseFloat(item.review.split(' ')[0]); // extract the rating number
-    const fullStars = Math.floor(rating); // number of full stars
-    const hasHalfStar = rating - fullStars >= 0.5; // whether there's a half star
-    const emptyStars = 5 - fullStars - hasHalfStar; // number of empty stars
-    const starColor = '#FFC107'; // yellow color for stars
-
-    const starIcons = [];
-    for (let i = 0; i < fullStars; i++) {
-      starIcons.push(<Ionicons key={i} name="star" size={20} color={starColor} />);
-    }
-    if (hasHalfStar) {
-      starIcons.push(<Ionicons key="half-star" name="star-half" size={20} color={starColor} />);
-    }
-    for (let i = 0; i < emptyStars; i++) {
-      starIcons.push(<Ionicons key={`empty-star-${i}`} name="star-outline" size={20} color={starColor} />);
-    }
-
-    return (
-      <View style={styles.spaceItem}>
-        <Text style={styles.spaceName}>{item.name}</Text>
-        <Image style={styles.img} source={require('../assets/images/workspace1.jpg')} />
-        <View style={styles.starContainer}>{starIcons}</View>
-      </View>
-    );
-  };
+  const renderTypeItem = ({ item }) => {
+    return(
+      <SafeAreaView style={{}}>
+        <TouchableOpacity style={styles.imgcontainer}> 
+          <Image style={styles.imgbox} source={item.image} />
+          <Text style={styles.imgtext}>{item.name}</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    )
+  }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TextInput
         style={styles.searchInput}
         placeholder="Search coworking spaces"
         value={searchText}
         onChangeText={setSearchText}
         onSubmitEditing={handleSearch}
-      />
-      <Text style={styles.recommendedTitle}>Recommended Spaces:</Text>
-      <FlatList data={coworkingSpaces} renderItem={renderSpaceItem} keyExtractor={(item) => item.id} />
-    </View>
+        />
+      <ScrollView>
+        <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems: 'center', marginLeft: 5}}>
+          <Ionicons name="search" size={20} color='red'/>
+          <Text style={styles.text}>Find the perfect space for you</Text>
+        </View>
+        <SafeAreaView >
+          <FlatList nestedScrollEnabled  horizontal data={coworkingSpacestype} renderItem={renderTypeItem} keyExtractor={(item) => item.id} />
+        </SafeAreaView>
+        <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems: 'center', marginLeft: 5, marginBottom: 5}}>
+          <Ionicons name="pin" size={25} color='blue'/>
+          <Text style={styles.text1}>Explore around</Text>
+        </View>
+        <Card />
+      </ScrollView>
+    </SafeAreaView>   
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 1,
+    flex: 1.5,
+    padding: 5,
     backgroundColor: '#fff',
   },
   searchInput: {
-    marginTop: 10,
+    marginVertical: 10,
     borderRadius: 10,
     backgroundColor: '#f5f8ff',
-    marginBottom: 10,
+    marginHorizontal: 10,
     padding: 10,
+    borderColor: 'gray',
+    borderWidth: 1
   },
   recommendedTitle: {
     marginLeft: 15,
@@ -82,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   spaceItem: {
-    marginVertical: 10,
+    marginTop: 20,
     marginHorizontal: 10,
     borderWidth: 2,
     borderRadius : 10,
@@ -98,6 +103,41 @@ const styles = StyleSheet.create({
     borderColor : 'black',
     width: 170,
     height: 130,
+  },
+  imgcontainer: {
+    borderWidth: 1,
+    borderColor : '#f5f8ff',
+    borderRadius : 10,
+    backgroundColor : '#f5f8ff',
+    marginHorizontal: 10,
+    marginTop : 20,
+    marginBottom : 10
+  },
+  imgbox: {
+    backgroundColor : '#f5f8ff',
+    width: 90,
+    marginHorizontal : 20,
+    marginVertical : 20,
+    height: 90,
+  },
+  text : {
+    fontFamily: 'sans-serif',
+    color: 'black',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginHorizontal : 5,
+  },
+  text1 : {
+    fontFamily: 'sans-serif',
+    color: 'black',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  imgtext : {
+    textAlign : 'center',
+    fontWeight: 'bold',
+    fontSize: 12,
+    marginBottom: 15
   }
 });
 export default HomePage;

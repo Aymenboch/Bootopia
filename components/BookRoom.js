@@ -10,13 +10,13 @@ export default function BookRoom({ navigation }) {
     <ScrollView style={styles.container}>
         <Image style={styles.backimg} source={require('../assets/images/bookroom.jpg')}/>
         <View style={styles.secondcontainer}>
-          <Text style={styles.title} >Book Room</Text>
+          <Text style={styles.title}>Book Room</Text>
 
-          <Text style={styles.text} >Choose Room</Text>
+          <Text style={styles.text}>Choose Room</Text>
           <TextInput style={styles.inputbox} placeholder="enter room name"/>
-          <Text style={styles.text} >Date</Text>
+          <Text style={styles.text}>Date</Text>
           <DatePicker/>
-          <Text style={styles.text} >Time Range</Text>
+          <Text style={styles.text}>Time Range</Text>
           <TimePicker/>
           <Text style={styles.text} >Number of person</Text>
           <TextInput style={styles.inputbox} placeholder="enter number of person" inputMode='numeric'/>

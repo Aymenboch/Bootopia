@@ -1,20 +1,48 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
+import axios from "axios";
+import React, {useContext, useState} from 'react';
 
 export default function Register({ navigation }) {
+  password_repeat
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(null);
+  const [password_repeat, setPassword_repeat] = useState(null);
+  const register = async (username, password) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/sign-up', {
+        username,
+        password,
+        password_repeat
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const response = await register(username, password, password_repeat);
+    if (response && response.message) {
+      console.log('sucess')
+    } else {
+      console.log('fail')
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
         <Image style={styles.backimg} source={require('../assets/images/Register-img.jpg')}/>
         <View style={styles.secondcontainer}>
           <Text style={styles.title} >Welcome, {'\n'}Register To Access</Text>
 
-          <Text style={styles.text} >Your Name</Text>
-          <TextInput style={styles.inputbox} placeholder="Name"/>
+          <Text style={styles.text} >Your Username</Text>
+          <TextInput value={username} style={styles.inputbox} placeholder="Name"/>
           <Text style={styles.text} >Email</Text>
           <TextInput style={styles.inputbox} placeholder="Email"/>
           <Text style={styles.text} >Password</Text>
-          <TextInput secureTextEntry={true} style={styles.inputbox} placeholder="password"/>
+          <TextInput value={password} secureTextEntry={true} style={styles.inputbox} placeholder="password"/>
           <Text style={styles.text} >Password Confirm</Text>
-          <TextInput secureTextEntry={true} style={styles.inputbox} placeholder="confirm password"/>
+          <TextInput value={password_repeat} secureTextEntry={true} style={styles.inputbox} placeholder="confirm password"/>
 
           <View style={styles.logocontainer}>
                   <Image style={styles.logo} source={require('../assets/images/Gmail-logo.png')}/>
@@ -23,9 +51,9 @@ export default function Register({ navigation }) {
           </View>
 
           <View style={styles.btncontainer}>
-            <TouchableHighlight style={styles.btn} underlayColor = {'#7502bf'} activeOpacity={0.95} onPress={() => alert('Pressed!')}> 
+            <TouchableHighlight style={styles.btn} underlayColor = {'#7502bf'} activeOpacity={0.95} onPress={handleSubmit}> 
               <View >
-                <Text style={styles.btntext} title="Login"> Register </Text> 
+                <Text style={styles.btntext} title="Register"> Register </Text> 
               </View>
             </TouchableHighlight>
             <View style={styles.question}>

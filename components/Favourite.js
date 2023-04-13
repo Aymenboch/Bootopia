@@ -42,18 +42,15 @@ const Favourite = () => {
 
   return (
     <View style={styles.container}>
-     
       {coworkingSpaces.map((space) => (
       <View style={[styles.listItem, { borderStyle: 'solid', borderColor: '#ccc', borderRadius : 10, borderWidth: 1, margin: 10 }]}>
-      <Image style={styles.img} source={require('../assets/images/ws.jpg')} />
-        <View key={space.id}  style={styles.textcontainer}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.name}>{space.name}</Text>
-          </View>
-          <Text style={styles.location}>{space.location}</Text>
-          <TouchableOpacity style={styles.heartIcon} onPress={() => handleFavorite(space.id)}>
-            <Icon name={isFavorite(space.id) ? 'heart' : 'heart-o'} size={24} color={isFavorite(space.id) ? 'red' : 'black'} />
-          </TouchableOpacity>
+        <Image style={styles.img} source={require('../assets/images/ws.jpg')} />
+          <View key={space.id}  style={styles.textcontainer}>
+            <Text style={styles.name}>{space.name}</Text>      
+            <Text style={styles.location}>{space.location}</Text>
+            <TouchableOpacity style={styles.heartIcon} onPress={() => handleFavorite(space.id)}>
+              <Icon key={space.id} name={isFavorite(space.id) ? 'heart' : 'heart-o'} size={24} color={isFavorite(space.id) ? 'red' : 'black'} />
+            </TouchableOpacity>
           </View>
         </View>
       ))}
@@ -63,44 +60,43 @@ const Favourite = () => {
 export default Favourite;
 const styles = StyleSheet.create({
   container: {
-  flex: 1,
-  backgroundColor: '#fff',
-  padding: 20,
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 20,
   },
   listItem: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
   },
   name: {
-  flex: 1,
-  fontFamily: 'sans-serif',
-  color: '#181394',
-  fontWeight: 'bold',
-  fontSize: 18,
-
+    flex: 1,
+    fontFamily: 'sans-serif',
+    color: '#181394',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   location: {
-  marginRight: 16,
-  fontFamily: 'sans-serif',
-  color: '#181394',
-  fontSize: 16,
+    marginRight: 16,
+    fontFamily: 'sans-serif',
+    color: '#181394',
+    fontSize: 16,
   },
   rating: {
-  fontFamily: 'sans-serif',
-  color: '#181394',
-  fontSize: 16,
+    fontFamily: 'sans-serif',
+    color: '#181394',
+    fontSize: 16,
   },
   heartIcon: {
-  marginLeft: 16,
+    marginLeft: 16,
   },
   img: {
     borderRadius: 10,
     height: 130,
     width: 130,
     alignSelf: 'center'
-    },
-    textcontainer :{
-      marginLeft: 20
+  },
+  textcontainer :{
+    marginLeft: 20
     }
   });
