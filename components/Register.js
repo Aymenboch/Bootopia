@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
 import axios from "axios";
+import api from './Api';
 import React, {useContext, useState} from 'react';
 
 export default function Register({ navigation }) {
@@ -7,9 +8,10 @@ export default function Register({ navigation }) {
   const [username, setUsername] = useState(null)
   const [password, setPassword] = useState(null);
   const [password_repeat, setPassword_repeat] = useState(null);
+
   const register = async (username, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/sign-up', {
+      const response = await api.post('/sign-up', {
         username,
         password,
         password_repeat
@@ -22,7 +24,7 @@ export default function Register({ navigation }) {
 
   const handleSubmit = async () => {
     const response = await register(username, password, password_repeat);
-    if (response && response.message) {
+    if (response) {
       console.log('sucess')
     } else {
       console.log('fail')
@@ -36,13 +38,13 @@ export default function Register({ navigation }) {
           <Text style={styles.title} >Welcome, {'\n'}Register To Access</Text>
 
           <Text style={styles.text} >Your Username</Text>
-          <TextInput value={username} style={styles.inputbox} placeholder="Name"/>
+          <TextInput onChangeText={text => setUsername(text)} style={styles.inputbox} placeholder="Name"/>
           <Text style={styles.text} >Email</Text>
           <TextInput style={styles.inputbox} placeholder="Email"/>
           <Text style={styles.text} >Password</Text>
-          <TextInput value={password} secureTextEntry={true} style={styles.inputbox} placeholder="password"/>
+          <TextInput onChangeText={text => setPassword(text)} secureTextEntry={true} style={styles.inputbox} placeholder="password"/>
           <Text style={styles.text} >Password Confirm</Text>
-          <TextInput value={password_repeat} secureTextEntry={true} style={styles.inputbox} placeholder="confirm password"/>
+          <TextInput onChangeText={text => setPassword_repeat(text)} secureTextEntry={true} style={styles.inputbox} placeholder="confirm password"/>
 
           <View style={styles.logocontainer}>
                   <Image style={styles.logo} source={require('../assets/images/Gmail-logo.png')}/>

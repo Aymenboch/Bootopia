@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
 import axios from "axios";
+import api from './Api';
 import { useEffect, useState, useContext} from 'react';
 
 
@@ -10,7 +11,8 @@ export default function Login({ navigation }) {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/login', {
+      console.log('test')
+      const response = await api.post('/login', {
         username,
         password,
       });
@@ -24,7 +26,7 @@ export default function Login({ navigation }) {
     const response = await login(username, password);
     if (response && response.token) {
       console.log('sucess')
-      navigation.navigate('Home')
+      navigation.navigate('TabNavi')
     } else {
       console.log('fail')
       // display an error message
