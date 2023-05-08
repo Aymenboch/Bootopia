@@ -35,6 +35,8 @@ const HomePage = () => {
     )
   }
 
+  const ListFlat = () => { return (<FlatList nestedScrollEnabled  horizontal data={coworkingSpacestype} renderItem={renderTypeItem} keyExtractor={(item) => item.id} />) }
+
   return (
     <SafeAreaView style={styles.container}>
       <TextInput
@@ -50,7 +52,7 @@ const HomePage = () => {
           <Text style={styles.text}>Find the perfect space for you</Text>
         </View>
         <SafeAreaView >
-          <FlatList nestedScrollEnabled  horizontal data={coworkingSpacestype} renderItem={renderTypeItem} keyExtractor={(item) => item.id} />
+          <ListFlat />
         </SafeAreaView>
         <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems: 'center', marginLeft: 5, marginBottom: 5}}>
           <Ionicons name="pin" size={25} color='blue'/>

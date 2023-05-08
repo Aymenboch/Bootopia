@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
 import axios from "axios";
-import api from './Api';
+import api from './Api.js';
 import React, {useContext, useState} from 'react';
 
 export default function Register({ navigation }) {

@@ -54,7 +54,7 @@ export default function Explore() {
 	})
 	const origin = {latitude: 37.3318456, longitude: -122.0296002};
 	const destination = {latitude: 37.771707, longitude: -122.4053769};
-	const GOOGLE_MAPS_APIKEY = 'AIzaSyBYHIpWLHLB_Q4WZ0kqzZ7D5BgFERvMFpY';	
+	const GOOGLE_MAPS_APIKEY = '';	
 	return (
 		<View style={{ marginTop: 50, flex: 1 }}>
 			<GooglePlacesAutocomplete
