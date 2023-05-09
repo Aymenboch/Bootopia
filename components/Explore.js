@@ -60,7 +60,7 @@ export default function Explore() {
 
 	const origin = {latitude: 36.8363546, longitude: 10.1377858};
 	const destination = {latitude: 36.83562, longitude: 10.2274756};
-	const GOOGLE_MAPS_APIKEY = 'AIzaSyAPOuV8v8Mfq4xtxv9KYcswUyT1PIzf3J4';
+	const GOOGLE_MAPS_APIKEY = '';
 	const origin2 = { latitude: region2.latitude, longitude: region2.longitude };
 	const destination1 = { latitude: region.latitude, longitude: region.longitude };
 	const destination2 = { latitude: region3.latitude, longitude: region3.longitude };
