@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, ScrollView } from 'react-native';
 import axios from "axios";
-import api from './Api';
+
 import { useEffect, useState, useContext} from 'react';
 
 
@@ -8,6 +8,9 @@ export default function Login({ navigation }) {
 
   const [username, setUsername] = useState(null)
   const [password, setPassword] = useState(null);
+  const api = axios.create({
+    baseURL: "http://192.168.48.33/api" // Adjust the baseURL according to your API endpoint
+  });
 
   const login = async (username, password) => {
     try {

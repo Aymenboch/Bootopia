@@ -1,10 +1,10 @@
 import React, { useState, useEffect} from "react"
-import { Dimensions, StyleSheet, Text, View } from "react-native"
+import {Button, TouchableHighlight,Dimensions, StyleSheet, Text, View } from "react-native"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 import MapView, { Callout, Circle, Marker } from "react-native-maps"
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
-
+import { getDistance, getPreciseDistance } from 'geolib';
 
 export default function Explore() {
 
@@ -29,10 +29,15 @@ export default function Explore() {
 		text =  JSON.stringify(location);
 	  }
 
+
+	const { width, height } = Dimensions.get("window");
+    const ASPECT_RATIO = width / height;
+	const LATITUDE_DELTA = 0.02;
+    const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 	const [errorMsg, setErrorMsg] = React.useState(null);
 	const[location, setLocation]  = useState({
 		latitude: 48.858093,
-		longitude: 2.294694
+		longitude: 2.294694,
 	})
 	const [ region, setRegion ] = React.useState({
 		latitude: 36.8364101,
@@ -52,11 +57,94 @@ export default function Explore() {
 		latitudeDelta: 0.0922,
 		longitudeDelta: 0.0421
 	})
-	const origin = {latitude: 37.3318456, longitude: -122.0296002};
-	const destination = {latitude: 37.771707, longitude: -122.4053769};
-	const GOOGLE_MAPS_APIKEY = '';	
+
+	const origin = {latitude: 36.8363546, longitude: 10.1377858};
+	const destination = {latitude: 36.83562, longitude: 10.2274756};
+	const GOOGLE_MAPS_APIKEY = 'AIzaSyAPOuV8v8Mfq4xtxv9KYcswUyT1PIzf3J4';
+	const origin2 = { latitude: region2.latitude, longitude: region2.longitude };
+	const destination1 = { latitude: region.latitude, longitude: region.longitude };
+	const destination2 = { latitude: region3.latitude, longitude: region3.longitude };
+	const [showDirections, setShowDirections] = useState(false);
+	const handleBestRoutePress = () => {
+		setShowDirections(true);
+	  };
+	  const [nearestNeighborPath, setNearestNeighborPath] = useState([]);
+	  function calculateDistance(lat1, lon1, lat2, lon2) {
+		const deg2rad = (degrees) => {
+		  return degrees * (Math.PI / 180);
+		};
+	  
+		const R = 6371; // Radius of the Earth in kilometers
+	  
+		const dLat = deg2rad(lat2 - lat1);
+		const dLon = deg2rad(lon2 - lon1);
+	  
+		const a =
+		  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+	  
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		const distance = R * c;
+	  
+		return distance;
+	  }
+	  useEffect(() => {
+		const places = [
+		  { name: 'your location', latitude: location.latitude, longitude: location.longitude },
+		  { name: 'ss', latitude: region3.latitude, longitude: region3.longitude },
+		  { name: 'work zone', latitude: region2.latitude, longitude: region2.latitude },
+		  { name: 'mind up', latitude: region.latitude, longitude: region.latitude }
+		];
+	
+		if (places.length <= 1) {
+		  console.log('Not enough places to visit.');
+		  return;
+		}
+	
+		const visited = [];
+		const remaining = [...places];
+	
+		visited.push(remaining.shift());
+	
+		while (remaining.length > 0) {
+		  let minDistance = Infinity;
+		  let nearestPlace;
+	
+		  for (let i = 0; i < remaining.length; i++) {
+			const currentPlace = remaining[i];
+			const lastVisitedPlace = visited[visited.length - 1];
+	
+			const distance = calculateDistance(
+			  lastVisitedPlace.latitude,
+			  lastVisitedPlace.longitude,
+			  currentPlace.latitude,
+			  currentPlace.longitude
+			);
+	
+			if (distance < minDistance) {
+			  minDistance = distance;
+			  nearestPlace = currentPlace;
+			}
+		  }
+	
+		  visited.push(nearestPlace);
+		  remaining.splice(remaining.indexOf(nearestPlace), 1);
+		}
+		setNearestNeighborPath(visited);
+		console.log('Nearest Neighbor Path:');
+		visited.forEach((place) => {
+		  console.log(place.name);
+		});
+	  }, []);
 	return (
 		<View style={{ marginTop: 50, flex: 1 }}>
+			<Button onPress={handleBestRoutePress} title="ffffff" />
+			<View>
+			<Text style={{ marginTop: 15, marginLeft : 6,fontSize: 12, fontWeight: 'bold' }}>Your best route :</Text>
+			{nearestNeighborPath.map((place) => (
+				<Text key={place.name} style={{ marginLeft : 6,fontSize: 16 }}>{place.name}</Text>
+			))}
+			</View>
 			<GooglePlacesAutocomplete
 				placeholder="Search"
 				fetchDetails={true}
@@ -66,6 +154,7 @@ export default function Explore() {
 				onPress={(data, details = null) => {
 					// 'details' is provided when fetchDetails = true
 					console.log(data, details)
+		
 					setRegion({
 						latitude: details.geometry.location.lat,
 						longitude: details.geometry.location.lng,
@@ -74,9 +163,9 @@ export default function Explore() {
 					})
 				}}
 				query={{
-					key: "AIzaSyBYHIpWLHLB_Q4WZ0kqzZ7D5BgFERvMFpY",
+					key: GOOGLE_MAPS_APIKEY,
 					language: "en",
-					components: "country:us",
+					components: "country:tn",
 					types: "establishment",
 					radius: 30000,
 					location: `${region.latitude}, ${region.longitude}`
@@ -86,16 +175,76 @@ export default function Explore() {
 					listView: { backgroundColor: "white" }
 				}}
 				/>
+		
 				<MapView
 				style={styles.map}
 				initialRegion={{
-					latitude: 36.8364101,
-					longitude: 10.142152,
-					latitudeDelta: 0.0922,
-					longitudeDelta: 0.0421
-				}}
+					latitude: region3.latitude,
+					longitude: region3.longitude,
+					latitudeDelta: 0.422,
+					longitudeDelta: 0.221,
+				  }}
 				provider="google"
 				>
+				
+				<MapViewDirections
+    				origin={location}
+    				destination={region3}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/>
+				<MapViewDirections
+    				origin={region}
+    				destination={region2}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/>
+				<MapViewDirections
+    				origin={location}
+    				destination={region3}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/>
+				<MapViewDirections
+    				origin={region}
+    				destination={region2}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/>
+				<MapViewDirections
+    				origin={region2}
+    				destination={location}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/>
+				<MapViewDirections
+    				origin={region}
+    				destination={region3}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/>
+				<MapViewDirections
+    				origin={region}
+    				destination={region3}
+					apikey={GOOGLE_MAPS_APIKEY}
+					strokeWidth={3}
+    				strokeColor="hotpink"
+					optimizeWaypoints={true}
+				/> 
+		
+
 				<Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} >
         			<Callout>
 						<Text>Work Zone 1.0</Text>
@@ -122,6 +271,8 @@ export default function Explore() {
         		<Circle center={region2} radius={1000} />
 
 			</MapView>
+
+			<Button title="Best Route" onPress={handleBestRoutePress} />
 		</View>
 	)}
 

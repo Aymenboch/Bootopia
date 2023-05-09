@@ -3,11 +3,12 @@ import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-export default function DatePicker({ navigation }) {
+export default function DatePicker({ onDateChange }) {
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [mode, setMode] = useState('date');
+  
   let tempDate = new Date()
   let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() 
   const [text, setText] = useState(fDate);
@@ -21,7 +22,7 @@ export default function DatePicker({ navigation }) {
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() 
     let fTime = 'Hours: ' + tempDate.getHours + ' | Minutes: ' + tempDate.getMinutes() 
     setText(fDate)
-
+    onDateChange(fDate);
     console.log(fDate)
   }
 

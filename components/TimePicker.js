@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-export default function DatePicker({ navigation }) {
+export default function DatePicker({ onTimeChange }) {
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -19,9 +19,9 @@ export default function DatePicker({ navigation }) {
 
     let tempDate = new Date(currentDate)
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() 
-    let fTime = 'Hours: ' + tempDate.getHours() + ' | Minutes: ' + tempDate.getMinutes() 
+    let fTime = tempDate.getHours() + ':' + tempDate.getMinutes() 
     setText(fTime)
-
+    onTimeChange(fTime);
     console.log(fTime)
   }
 
