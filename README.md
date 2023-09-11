@@ -1,5 +1,5 @@
 # Bootopia
-app for workspace booking
+app for workspace booking 
 Create your own expo app named 'Bootopia'
 then download from git the components and assets folder and the file app.js
 finally install npm install 
