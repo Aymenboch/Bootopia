@@ -70,7 +70,7 @@ export default function Explore() {
 
   const origin = { latitude: 36.8363546, longitude: 10.1377858 };
   const destination = { latitude: 36.83562, longitude: 10.2274756 };
-  const GOOGLE_MAPS_APIKEY = "";
+  const GOOGLE_MAPS_APIKEY = "AIzaSyAPOuV8v8Mfq4xtxv9KYcswUyT1PIzf3J4";
   const origin2 = { latitude: region2.latitude, longitude: region2.longitude };
   const destination1 = {
     latitude: region.latitude,
@@ -85,6 +85,7 @@ export default function Explore() {
     setShowDirections(true);
   };
   const [nearestNeighborPath, setNearestNeighborPath] = useState([]);
+  
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const deg2rad = (degrees) => {
       return degrees * (Math.PI / 180);
@@ -107,6 +108,7 @@ export default function Explore() {
 
     return distance;
   }
+
   useEffect(() => {
     const places = [
       {
@@ -114,7 +116,10 @@ export default function Explore() {
         latitude: location.latitude,
         longitude: location.longitude,
       },
-      { name: "ss", latitude: region3.latitude, longitude: region3.longitude },
+      { name: "Co work", 
+        latitude: region3.latitude, 
+        longitude: region3.longitude 
+      },
       {
         name: "work zone",
         latitude: region2.latitude,
@@ -167,6 +172,7 @@ export default function Explore() {
       console.log(place.name);
     });
   }, []);
+
   const [choosedLocName, setChoosedLocName] = React.useState("");
   return (
     <View style={{ marginTop: 50, flex: 1 }}>

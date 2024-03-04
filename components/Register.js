@@ -9,7 +9,9 @@ import {
   ScrollView,
 } from "react-native";
 import axios from "axios";
-import api from "./Api.js";
+const api = axios.create({
+  baseURL: "http://192.168.1.58:5000/api",
+});
 import React, { useContext, useState } from "react";
 
 export default function Register({ navigation }) {

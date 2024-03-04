@@ -8,13 +8,15 @@ import {
   TouchableHighlight,
   ScrollView,
 } from "react-native";
-import Api from "./Api";
+import axios from "axios";
+import api from "./api"
 import { useEffect, useState, useContext } from "react";
 
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [valid, setValid] = useState(false);
+  const [connectUser, setConnectUser] = useState("ss");
 
   const checkTextInput = () => {
     //Check
@@ -33,7 +35,7 @@ export default function Login({ navigation }) {
   const login = async (username, password) => {
     try {
       console.log("test");
-      const response = await Api.post("/login", {
+      const response = await api.post("/login", {
         username,
         password,
       });
@@ -43,12 +45,14 @@ export default function Login({ navigation }) {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (connectUser) => {
     checkTextInput();
     if (valid == true) {
       const response = await login(username, password);
       if (response && response.token) {
-        console.log("sucess");
+        console.log("success");
+        setConnectUser(response.user);
+        alert("welcome" + {connectUser});
         navigation.navigate("TabNavi");
       } else {
         console.log("fail");

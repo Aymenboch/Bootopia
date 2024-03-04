@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import DatePicker from "./DatePicker";
 import TimePicker from "./TimePicker";
 import { SelectList } from "react-native-dropdown-select-list";
-import api from "./Api.js";
+import api from "./api";
 
 export default function BookRoom({ navigation }) {
   const data = [
@@ -128,7 +128,7 @@ export default function BookRoom({ navigation }) {
         note
       );
       if (response) {
-        console.log("sucess");
+        console.log("success");
         alert("Booked succefully");
         navigation.navigate("Home");
       }
